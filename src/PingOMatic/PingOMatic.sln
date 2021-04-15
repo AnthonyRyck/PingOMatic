@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingOMatic", "PingOMatic\PingOMatic.csproj", "{600FFC92-3624-45A4-B239-EFF5D86F3B4A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{600FFC92-3624-45A4-B239-EFF5D86F3B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{600FFC92-3624-45A4-B239-EFF5D86F3B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{600FFC92-3624-45A4-B239-EFF5D86F3B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{600FFC92-3624-45A4-B239-EFF5D86F3B4A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {558894B0-0A8D-43DB-B6F3-AA036CB62DB9}
+	EndGlobalSection
+EndGlobal
