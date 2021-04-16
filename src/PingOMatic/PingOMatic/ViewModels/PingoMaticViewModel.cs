@@ -98,6 +98,12 @@ namespace PingOMatic.ViewModels
 			TimerPing.Start();
 		}
 
+
+		internal async Task Ping(MachineToTestDisplay machine)
+		{
+			await PingMachine(machine);
+		}
+
 		private void LoadSaveFile()
 		{
 			try
@@ -145,19 +151,24 @@ namespace PingOMatic.ViewModels
 
 			foreach (MachineToTestDisplay machine in ListeDesMachines)
 			{
-				machine.StatusMachine = Status.InTesting;
-
-				if(await Reseau.PingHostAsync(machine.NomMachine))
-				{
-					machine.StatusMachine = Status.Connected;
-				}
-				else
-				{
-					machine.StatusMachine = Status.NotConnected;
-				}
+				await PingMachine(machine);
 			}
 
 			IsEnabled = true;
+		}
+
+		private async Task PingMachine(MachineToTestDisplay machine)
+		{
+			machine.StatusMachine = Status.InTesting;
+
+			if (await Reseau.PingHostAsync(machine.NomMachine))
+			{
+				machine.StatusMachine = Status.Connected;
+			}
+			else
+			{
+				machine.StatusMachine = Status.NotConnected;
+			}
 		}
 
 	}

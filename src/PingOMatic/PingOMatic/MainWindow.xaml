@@ -57,6 +57,15 @@
 								BorderThickness="1"
 								BorderBrush="Black"
 								CornerRadius="3">
+
+							<Border.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="Ping" 
+											Click="OnPingThisMachine"/>
+									<!--<MenuItem Header = "Ouvrir"/>-->
+								</ContextMenu>
+							</Border.ContextMenu>
+
 							<Border.Resources>
 								<Style TargetType="{x:Type Border}">
 									<Setter Property="Background" Value="Gray" />

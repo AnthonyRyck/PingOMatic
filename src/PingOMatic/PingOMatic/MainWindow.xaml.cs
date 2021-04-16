@@ -71,5 +71,12 @@ namespace PingOMatic
 			textBox.Text = textBox.Text.Replace(" ", string.Empty);
 		}
 
+		private async void OnPingThisMachine(object sender, RoutedEventArgs e)
+		{
+			var item = sender as MenuItem;
+			var machine = item.DataContext as MachineToTestDisplay;
+
+			await ViewModel.Ping(machine);
+		}
 	}
 }
