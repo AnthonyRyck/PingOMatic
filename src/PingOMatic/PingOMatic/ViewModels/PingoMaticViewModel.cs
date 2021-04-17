@@ -51,6 +51,8 @@ namespace PingOMatic.ViewModels
 		private Timer TimerPing;
 
 
+		private NotifyWindow Notify = new NotifyWindow();
+
 		public PingoMaticViewModel()
 		{
 			ListeDesMachines = new ObservableCollection<MachineToTestDisplay>();
@@ -81,6 +83,7 @@ namespace PingOMatic.ViewModels
 			catch (Exception ex)
 			{
 				LogErreur(ex);
+				Notify.ShowNotification("Erreur", "Erreur ajouté au fichier log", System.Windows.Forms.ToolTipIcon.Error);
 			}
 		}
 
@@ -94,6 +97,7 @@ namespace PingOMatic.ViewModels
 			catch (Exception ex)
 			{
 				LogErreur(ex);
+				Notify.ShowNotification("Erreur", "Erreur ajouté au fichier log", System.Windows.Forms.ToolTipIcon.Error);
 			}
 		}
 
@@ -109,7 +113,7 @@ namespace PingOMatic.ViewModels
 			catch (Exception ex)
 			{
 				LogErreur(ex);
-				throw;
+				Notify.ShowNotification("Erreur", "Erreur ajouté au fichier log", System.Windows.Forms.ToolTipIcon.Error);
 			}
 		}
 
@@ -122,6 +126,7 @@ namespace PingOMatic.ViewModels
 			catch (Exception ex)
 			{
 				LogErreur(ex);
+				Notify.ShowNotification("Erreur", "Erreur ajouté au fichier log", System.Windows.Forms.ToolTipIcon.Error);
 			}
 		}
 
@@ -170,14 +175,26 @@ namespace PingOMatic.ViewModels
 
 		private async Task PingMachine(MachineToTestDisplay machine)
 		{
+			var oldValue = machine.StatusMachine;
+
 			machine.StatusMachine = Status.InTesting;
 
 			if (await Reseau.PingHostAsync(machine.NomMachine))
 			{
 				machine.StatusMachine = Status.Connected;
+
+				if (oldValue == Status.NotConnected)
+				{
+					Notify.ShowNotification("PING", machine.NomMachine + " en ligne", System.Windows.Forms.ToolTipIcon.Info);
+				}
 			}
 			else
 			{
+				if (oldValue == Status.Connected)
+				{
+					Notify.ShowNotification("PING", machine.NomMachine + " déconnecté", System.Windows.Forms.ToolTipIcon.Error);
+				}
+
 				machine.StatusMachine = Status.NotConnected;
 			}
 		}
