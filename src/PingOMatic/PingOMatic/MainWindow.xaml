@@ -51,6 +51,13 @@
 		<Grid Grid.Row="1">
 			<ListView x:Name="ListUc"
 					ItemsSource="{Binding ListeDesMachines, Mode=OneWay}">
+
+				<ListView.ItemContainerStyle>
+					<Style TargetType="ListViewItem">
+						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+					</Style>
+				</ListView.ItemContainerStyle>
+
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<Border Margin="3"
@@ -62,7 +69,6 @@
 								<ContextMenu>
 									<MenuItem Header="Ping" 
 											Click="OnPingThisMachine"/>
-									<!--<MenuItem Header = "Ouvrir"/>-->
 								</ContextMenu>
 							</Border.ContextMenu>
 
@@ -96,11 +102,6 @@
 										Height="20"
 										Width="20"/>
 
-
-								<!--<TextBlock Margin="10,0,0,0">
-									<Run Text="Machine :" FontWeight="Bold" />
-									<Run Text="{Binding NomMachine}" />
-								</TextBlock>-->
 								<Label Content="Machine :" FontWeight="Bold" />
 								<TextBox IsReadOnly="True"
 									Text="{Binding NomMachine}">

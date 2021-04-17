@@ -40,7 +40,6 @@ namespace PingOMatic.ViewModels
 		}
 		private bool _isEnabled;
 
-
 		/// <summary>
 		/// Chemin d'accès au fichier de sauvegarde pour le fichier.
 		/// </summary>
@@ -62,12 +61,13 @@ namespace PingOMatic.ViewModels
 			IsEnabled = true;
 
 			TimerPing = new Timer(Convert.ToDouble(TimeSpan.FromMinutes(5).TotalMilliseconds));
-			//TimerPing = new Timer(Convert.ToDouble(TimeSpan.FromSeconds(15).TotalMilliseconds));
 
 			TimerPing.Elapsed += TimerPing_Elapsed;
 			TimerPing.AutoReset = true;
 			TimerPing.Enabled = true;
 		}
+
+		#region Internal methods
 
 		internal async Task AddMachine(string machine, string description)
 		{
@@ -80,62 +80,73 @@ namespace PingOMatic.ViewModels
 			}
 			catch (Exception ex)
 			{
-				throw;
+				LogErreur(ex);
 			}
 		}
 
 		internal async Task DeleteMachine(MachineToTestDisplay selected)
 		{
-			ListeDesMachines.Remove(selected);
-			await SaveToFile();
+			try
+			{
+				ListeDesMachines.Remove(selected);
+				await SaveToFile();
+			}
+			catch (Exception ex)
+			{
+				LogErreur(ex);
+			}
 		}
 
 		internal async Task Ping()
 		{
-			TimerPing.Stop();
-			await PingAll();
-
-			TimerPing.Start();
-		}
-
-
-		internal async Task Ping(MachineToTestDisplay machine)
-		{
-			await PingMachine(machine);
-		}
-
-		private void LoadSaveFile()
-		{
 			try
 			{
-				if (!File.Exists(PathSaveFile))
-					return;
+				TimerPing.Stop();
+				await PingAll();
 
-				string saveFile = File.ReadAllText(PathSaveFile);
-				var tempList = JsonConvert.DeserializeObject<List<MachineToTest>>(saveFile);
-				var listMachines = tempList.Select(x => new MachineToTestDisplay(x.NomMachine, x.Description)).ToList();
-
-				ListeDesMachines = new ObservableCollection<MachineToTestDisplay>(listMachines);
+				TimerPing.Start();
 			}
 			catch (Exception ex)
 			{
-
+				LogErreur(ex);
+				throw;
 			}
+		}
+
+		internal async Task Ping(MachineToTestDisplay machine)
+		{
+			try
+			{
+				await PingMachine(machine);
+			}
+			catch (Exception ex)
+			{
+				LogErreur(ex);
+			}
+		}
+
+		#endregion
+
+		#region Private methods
+
+		private void LoadSaveFile()
+		{
+			if (!File.Exists(PathSaveFile))
+				return;
+
+			string saveFile = File.ReadAllText(PathSaveFile);
+			var tempList = JsonConvert.DeserializeObject<List<MachineToTest>>(saveFile);
+			var listMachines = tempList.Select(x => new MachineToTestDisplay(x.NomMachine, x.Description)).ToList();
+
+			ListeDesMachines = new ObservableCollection<MachineToTestDisplay>(listMachines);
 		}
 
 		private async Task SaveToFile()
 		{
-			try
-			{
-				List<MachineToTest> toSaveList = ListeDesMachines.ToList<MachineToTest>();
+			List<MachineToTest> toSaveList = ListeDesMachines.ToList<MachineToTest>();
 
-				string output = JsonConvert.SerializeObject(toSaveList);
-				File.WriteAllText(PathSaveFile, output);
-			}
-			catch (Exception ex)
-			{
-
-			}
+			string output = JsonConvert.SerializeObject(toSaveList);
+			File.WriteAllText(PathSaveFile, output);
 		}
 
 		private async void TimerPing_Elapsed(object sender, ElapsedEventArgs e)
@@ -170,6 +181,8 @@ namespace PingOMatic.ViewModels
 				machine.StatusMachine = Status.NotConnected;
 			}
 		}
+
+		#endregion
 
 	}
 }
