@@ -35,5 +35,12 @@ namespace PingOMatic.Codes
             // Shows a notification with specified message and title
             _notifyIcon.ShowBalloonTip(5000, titre, message, icon);
         }
+
+        public void ShowNotification(string titre, string message, ToolTipIcon icon, int seconde)
+        {
+            _notifyIcon.Visible = true;
+            // Shows a notification with specified message and title
+            _notifyIcon.ShowBalloonTip(seconde*1000, titre, message, icon);
+        }
     }
 }

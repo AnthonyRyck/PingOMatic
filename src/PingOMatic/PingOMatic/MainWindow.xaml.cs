@@ -78,5 +78,11 @@ namespace PingOMatic
 
 			await ViewModel.Ping(machine);
 		}
+
+		private void ClickToItem(object sender, SelectionChangedEventArgs e)
+		{
+			var machineSelected = e.AddedItems[0] as MachineToTestDisplay;
+			ViewModel.CopyToClipBoard(machineSelected);
+		}
 	}
 }

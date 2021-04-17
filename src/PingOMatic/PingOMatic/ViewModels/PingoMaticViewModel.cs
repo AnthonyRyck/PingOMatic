@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows;
 
 namespace PingOMatic.ViewModels
 {
@@ -128,6 +129,12 @@ namespace PingOMatic.ViewModels
 				LogErreur(ex);
 				Notify.ShowNotification("Erreur", "Erreur ajouté au fichier log", System.Windows.Forms.ToolTipIcon.Error);
 			}
+		}
+
+		internal void CopyToClipBoard(MachineToTestDisplay machineSelected)
+		{
+			Clipboard.SetText(machineSelected.NomMachine);
+			Notify.ShowNotification("Copié", machineSelected.NomMachine + " dans le presse-papiers !", System.Windows.Forms.ToolTipIcon.Info, 3);
 		}
 
 		#endregion

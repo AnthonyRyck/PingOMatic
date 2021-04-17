@@ -50,7 +50,8 @@
 
 		<Grid Grid.Row="1">
 			<ListView x:Name="ListUc"
-					ItemsSource="{Binding ListeDesMachines, Mode=OneWay}">
+					ItemsSource="{Binding ListeDesMachines, Mode=OneWay}"
+					SelectionChanged="ClickToItem">
 
 				<ListView.ItemContainerStyle>
 					<Style TargetType="ListViewItem">
