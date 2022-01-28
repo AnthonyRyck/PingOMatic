@@ -87,7 +87,7 @@ namespace PingOMatic
 
 		private async void Button_AddListClick(object sender, RoutedEventArgs e)
         {
-			await ViewModel.AddList();
+			await ViewModel.AddList(DescriptionMultiTextBox.Text);
 			DescriptionMultiTextBox.Clear();
 
 		}

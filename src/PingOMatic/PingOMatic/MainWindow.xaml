@@ -45,8 +45,8 @@
                             Width="150"
                                IsEnabled="{Binding IsEnabled}">Ajouter</Button>
 
-                    <Separator BorderBrush="Black"  BorderThickness="2"/>
-                
+                <Rectangle Fill="Black" Height="2" Margin="0,5"  />
+
                 <StackPanel Orientation="Horizontal">
                     <Button Width="150" 
                             HorizontalAlignment="Left"
@@ -59,10 +59,10 @@
 						IsEnabled="{Binding IsEnabled}"/>
                 </StackPanel>
                 
-                <Label>Fichier csv, URL/Machine séparé par des ";"</Label>
-
-                <Separator Margin="2" BorderBrush="Black"  BorderThickness="2"/>
+                <Label>Fichier csv: les URLs/Machines sont séparées par des ";" ou en liste "colonne".</Label>
                 
+                <Rectangle Fill="Black" Height="2" Margin="0,5"  />
+
                 <Button Content="Forcer PING"
 						x:Name="ButtonPing"
 						Margin="5"

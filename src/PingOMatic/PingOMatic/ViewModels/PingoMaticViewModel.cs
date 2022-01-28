@@ -103,13 +103,12 @@ namespace PingOMatic.ViewModels
 			}
 		}
 
-        internal async Task AddList()
+        internal async Task AddList(string description)
         {
             try
             {
 				Stream[] files = await Task.Factory.StartNew(() =>
 				{
-					// Ouvrir la recherche fichier.
 					OpenFileDialog fileDialog = new OpenFileDialog();
 					fileDialog.Filter = "fichiers csv (*.csv)|*.csv";
 					fileDialog.Multiselect = true;
@@ -119,11 +118,14 @@ namespace PingOMatic.ViewModels
 					return fileDialog.OpenFiles();
 				});
 
-                foreach (var file in files)
+				if (string.IsNullOrEmpty(description))
+					description = "Multi ajout";
+
+				foreach (var file in files)
                 {
 					foreach(string url in GetUrl(file))
                     {
-						await AddMachine(url, "Multi ajout");
+						await AddMachine(url, description);
                     }
 				}
             }
@@ -175,7 +177,7 @@ namespace PingOMatic.ViewModels
         {
 			StreamReader reader = new StreamReader(streamFile);
 			string text = reader.ReadToEnd();
-			return text.Split(new char[] { ';' });
+			return text.Split(new string[] { ";", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		#region Private methods
