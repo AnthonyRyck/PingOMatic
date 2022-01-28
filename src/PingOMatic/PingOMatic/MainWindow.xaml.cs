@@ -84,5 +84,12 @@ namespace PingOMatic
 			var machineSelected = e.AddedItems[0] as MachineToTestDisplay;
 			ViewModel.CopyToClipBoard(machineSelected);
 		}
-	}
+
+		private async void Button_AddListClick(object sender, RoutedEventArgs e)
+        {
+			await ViewModel.AddList();
+			DescriptionMultiTextBox.Clear();
+
+		}
+    }
 }

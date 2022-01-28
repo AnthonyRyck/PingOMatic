@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using PingOMatic.Codes;
 using System;
 using System.Collections.Generic;
@@ -102,7 +103,38 @@ namespace PingOMatic.ViewModels
 			}
 		}
 
-		internal async Task Ping()
+        internal async Task AddList()
+        {
+            try
+            {
+				Stream[] files = await Task.Factory.StartNew(() =>
+				{
+					// Ouvrir la recherche fichier.
+					OpenFileDialog fileDialog = new OpenFileDialog();
+					fileDialog.Filter = "fichiers csv (*.csv)|*.csv";
+					fileDialog.Multiselect = true;
+					fileDialog.Title = "Liste de machine/URL";
+					fileDialog.ShowDialog();
+
+					return fileDialog.OpenFiles();
+				});
+
+                foreach (var file in files)
+                {
+					foreach(string url in GetUrl(file))
+                    {
+						await AddMachine(url, "Multi ajout");
+                    }
+				}
+            }
+            catch (Exception ex)
+            {
+				LogErreur(ex);
+				Notify.ShowNotification("Erreur", "Erreur ajouté au fichier log", System.Windows.Forms.ToolTipIcon.Error);
+			}
+        }
+
+        internal async Task Ping()
 		{
 			try
 			{
@@ -138,6 +170,13 @@ namespace PingOMatic.ViewModels
 		}
 
 		#endregion
+
+		private IEnumerable<string> GetUrl(Stream streamFile)
+        {
+			StreamReader reader = new StreamReader(streamFile);
+			string text = reader.ReadToEnd();
+			return text.Split(new char[] { ';' });
+		}
 
 		#region Private methods
 

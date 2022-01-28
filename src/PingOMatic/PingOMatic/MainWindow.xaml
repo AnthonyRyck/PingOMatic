@@ -23,7 +23,8 @@
 				Margin="5" 
 				CornerRadius="5">
 
-			<StackPanel Margin="5"
+            <StackPanel Orientation="Vertical">
+				<StackPanel Margin="5"
 						Orientation="Horizontal">
 				<Label Content="Nom machine : " />
 				<TextBox Width="120" x:Name="UcName"
@@ -35,17 +36,41 @@
 						x:Name="DescriptionTextBox"
 						IsEnabled="{Binding IsEnabled}"/>
 
-				<Button Click="AddToList"
-						x:Name="ButtonAdd"
-						Margin="10,0,0,0"
-						IsEnabled="{Binding IsEnabled}">Ajouter</Button>
+                </StackPanel>
 
-				<Button Content="Forcer PING"
+                    <Button Click="AddToList"
+                               x:Name="ButtonAdd" 
+                               Margin="10,0,0,0" 
+                            HorizontalAlignment="Left"
+                            Width="150"
+                               IsEnabled="{Binding IsEnabled}">Ajouter</Button>
+
+                    <Separator BorderBrush="Black"  BorderThickness="2"/>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="150" 
+                            HorizontalAlignment="Left"
+                            Margin="3"
+                            IsEnabled="{Binding IsEnabled}"
+                            Click="Button_AddListClick">Ajout d'une liste</Button>
+                    <Label Content="Description à ajouter :" />
+                    <TextBox Width="350" 
+						x:Name="DescriptionMultiTextBox"
+						IsEnabled="{Binding IsEnabled}"/>
+                </StackPanel>
+                
+                <Label>Fichier csv, URL/Machine séparé par des ";"</Label>
+
+                <Separator Margin="2" BorderBrush="Black"  BorderThickness="2"/>
+                
+                <Button Content="Forcer PING"
 						x:Name="ButtonPing"
-						Margin="10,0,0,0"
+						Margin="5"
+                        Width="150"
 						Click="ForcerPingOnClick"
 						IsEnabled="{Binding IsEnabled}"/>
-			</StackPanel>
+            </StackPanel>
+
 		</Border>
 
 		<Grid Grid.Row="1">
