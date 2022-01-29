@@ -65,6 +65,7 @@
     </ApplicationDefinition>
     <Compile Include="Codes\MachineToTestDisplay.cs" />
     <Compile Include="Codes\NotifyWindow.cs" />
+    <Compile Include="Codes\ReponsePing.cs" />
     <Compile Include="Codes\Reseau.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\PingoMaticViewModel.cs" />

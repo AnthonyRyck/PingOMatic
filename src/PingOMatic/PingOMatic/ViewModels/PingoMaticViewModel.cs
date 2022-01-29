@@ -277,10 +277,12 @@ namespace PingOMatic.ViewModels
 
 			machine.StatusMachine = Status.InTesting;
 
-			if (await Reseau.PingHostAsync(machine.NomMachine))
+			ReponsePing resultPing = await Reseau.PingHostAsync(machine.NomMachine);
+
+			if (resultPing.IsPingable)
 			{
 				machine.StatusMachine = Status.Connected;
-
+				
 				if (oldValue == Status.NotConnected)
 				{
 					Notify.ShowNotification("PING", machine.NomMachine + " en ligne", System.Windows.Forms.ToolTipIcon.Info);
@@ -295,6 +297,8 @@ namespace PingOMatic.ViewModels
 
 				machine.StatusMachine = Status.NotConnected;
 			}
+
+			machine.Temps = resultPing.TimePing;
 		}
 
 		#endregion

@@ -157,10 +157,18 @@
 									Text="{Binding NomMachine}">
 								</TextBox>
 
-								<TextBlock Margin="20,0,0,0">
-									<Run Text="Description :" FontWeight="Bold" />
-									<Run Text="{Binding Description}" />
-								</TextBlock>
+                                <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+									<TextBlock>
+										<Run Text="Description :" FontWeight="Bold" />
+										<Run Text="{Binding Description}" />
+									</TextBlock>
+
+                                    <TextBlock>
+                                        <Run Text="Temps :" FontWeight="Bold" />
+										<Run Text="{Binding Temps}" />
+                                        <Run Text=" ms" />
+                                    </TextBlock>
+                                </StackPanel>
 							</StackPanel>
 						</Border>
 					</DataTemplate>

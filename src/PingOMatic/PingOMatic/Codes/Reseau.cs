@@ -11,21 +11,24 @@ namespace PingOMatic.Codes
 		/// </summary>
 		/// <param name="nameOrAddress">Nom ou adresse IP de la machine</param>
 		/// <returns></returns>
-		public static async Task<bool> PingHostAsync(string nameOrAddress)
+		public static async Task<ReponsePing> PingHostAsync(string nameOrAddress)
 		{
 			return await Task.Factory.StartNew(() =>
 			{
 				Ping pinger = new Ping();
-				bool pingable = false;
+
+				ReponsePing reponse = new ReponsePing();
+				reponse.IsPingable = false;
 
 				try
 				{
 					PingReply reply = pinger.Send(nameOrAddress);
-					pingable = reply.Status == IPStatus.Success;
+					reponse.IsPingable = reply.Status == IPStatus.Success;
+					reponse.TimePing = reply.RoundtripTime;
 				}
 				catch (Exception)
 				{
-					pingable = false;
+					reponse.IsPingable = false;
 				}
 				finally
 				{
@@ -35,7 +38,7 @@ namespace PingOMatic.Codes
 					}
 				}
 
-				return pingable;
+				return reponse;
 			});
 		}
 
