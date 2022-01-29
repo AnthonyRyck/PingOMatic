@@ -52,7 +52,7 @@
                             HorizontalAlignment="Left"
                             Margin="3"
                             IsEnabled="{Binding IsEnabled}"
-                            Click="Button_AddListClick">Ajout d'une liste</Button>
+                            Click="Button_AddListClick">Ajout d'un fichier</Button>
                     <Label Content="Description à ajouter :" />
                     <TextBox Width="350" 
 						x:Name="DescriptionMultiTextBox"
@@ -61,6 +61,20 @@
                 
                 <Label>Fichier csv: les URLs/Machines sont séparées par des ";" ou en liste "colonne".</Label>
                 
+                <Rectangle Fill="Black" Height="2" Margin="0,5"  />
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="150" 
+                            HorizontalAlignment="Left"
+                            Margin="3"
+                            IsEnabled="{Binding IsEnabled}"
+                            Click="Button_AddClipBoard_Click">Ajout du presse papier</Button>
+                    <Label Content="Description à ajouter :" />
+                    <TextBox Width="350" 
+						x:Name="DescriptionClipboardTextBox"
+						IsEnabled="{Binding IsEnabled}"/>
+                </StackPanel>
+
                 <Rectangle Fill="Black" Height="2" Margin="0,5"  />
 
                 <Button Content="Forcer PING"

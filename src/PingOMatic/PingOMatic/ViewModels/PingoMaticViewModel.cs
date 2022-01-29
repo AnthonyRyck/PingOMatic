@@ -103,6 +103,18 @@ namespace PingOMatic.ViewModels
 			}
 		}
 
+        internal async Task AddClipboard(string description)
+        {
+			if (string.IsNullOrEmpty(description))
+				description = "Ajout Presse Papier";
+
+			string text = Clipboard.GetText();
+			foreach (string url in Split(text))
+			{
+				await AddMachine(url, description);
+			}
+		}
+
         internal async Task AddList(string description)
         {
             try
@@ -177,6 +189,11 @@ namespace PingOMatic.ViewModels
         {
 			StreamReader reader = new StreamReader(streamFile);
 			string text = reader.ReadToEnd();
+			return Split(text);
+		}
+
+		private IEnumerable<string> Split(string text)
+        {
 			return text.Split(new string[] { ";", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 		}
 

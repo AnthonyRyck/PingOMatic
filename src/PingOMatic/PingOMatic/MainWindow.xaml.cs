@@ -91,5 +91,11 @@ namespace PingOMatic
 			DescriptionMultiTextBox.Clear();
 
 		}
+
+        private async void Button_AddClipBoard_Click(object sender, RoutedEventArgs e)
+        {
+			await ViewModel.AddClipboard(DescriptionClipboardTextBox.Text);
+			DescriptionClipboardTextBox.Clear();
+		}
     }
 }
