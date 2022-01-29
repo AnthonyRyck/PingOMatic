@@ -53,6 +53,10 @@ namespace PingOMatic.ViewModels
 		private Timer TimerPing;
 
 
+		private const string SEQUENTIEL = "sequentiel";
+		private const string PARALELLE = "parallele";
+		private string optionPing;
+
 		private NotifyWindow Notify = new NotifyWindow();
 
 		public PingoMaticViewModel()
@@ -69,6 +73,8 @@ namespace PingOMatic.ViewModels
 			TimerPing.Elapsed += TimerPing_Elapsed;
 			TimerPing.AutoReset = true;
 			TimerPing.Enabled = true;
+
+			optionPing = SEQUENTIEL;
 		}
 
 		#region Internal methods
@@ -115,6 +121,12 @@ namespace PingOMatic.ViewModels
 			}
 		}
 
+        internal void SetConfigPing(string tag)
+        {
+			if(!string.IsNullOrEmpty(tag))
+				optionPing = tag;
+		}
+
         internal async Task AddList(string description)
         {
             try
@@ -152,8 +164,22 @@ namespace PingOMatic.ViewModels
 		{
 			try
 			{
-				TimerPing.Stop();
-				await PingAll();
+                TimerPing.Stop();
+                
+				switch (optionPing)
+                {
+					case SEQUENTIEL:
+						await PingAllSequentiel();
+						break;
+
+					case PARALELLE:
+						await PingAllParallel();
+						break;
+                    
+					default:
+						await PingAllSequentiel();
+						break;
+                }
 
 				TimerPing.Start();
 			}
@@ -222,19 +248,26 @@ namespace PingOMatic.ViewModels
 		private async void TimerPing_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			TimerPing.Stop();
-			await PingAll();
+			await Ping();
 			TimerPing.Start();
 		}
 
-		private async Task PingAll()
+		private async Task PingAllSequentiel()
 		{
 			IsEnabled = false;
 
-			foreach (MachineToTestDisplay machine in ListeDesMachines)
-			{
-				await PingMachine(machine);
-			}
+            foreach (MachineToTestDisplay machine in ListeDesMachines)
+            {
+                await PingMachine(machine);
+            }
 
+            IsEnabled = true;
+		}
+
+		private async Task PingAllParallel()
+        {
+			IsEnabled = false;
+			Parallel.ForEach(ListeDesMachines, async machine => await PingMachine(machine));
 			IsEnabled = true;
 		}
 

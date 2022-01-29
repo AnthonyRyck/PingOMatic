@@ -97,5 +97,21 @@ namespace PingOMatic
 			await ViewModel.AddClipboard(DescriptionClipboardTextBox.Text);
 			DescriptionClipboardTextBox.Clear();
 		}
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+			if (sender == null)
+				return;
+
+			var comboBox = sender as ComboBox;
+			var item = comboBox.SelectedItem as ComboBoxItem;
+
+			if (item != null)
+            {
+				string tag = item.Tag?.ToString();
+				ViewModel?.SetConfigPing(tag);
+            }
+			
+		}
     }
 }

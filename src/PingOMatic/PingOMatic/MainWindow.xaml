@@ -77,12 +77,22 @@
 
                 <Rectangle Fill="Black" Height="2" Margin="0,5"  />
 
-                <Button Content="Forcer PING"
-						x:Name="ButtonPing"
-						Margin="5"
-                        Width="150"
-						Click="ForcerPingOnClick"
-						IsEnabled="{Binding IsEnabled}"/>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    
+					<Button Content="Forcer PING"
+							x:Name="ButtonPing"
+							Margin="5"
+					        Width="150"
+							Click="ForcerPingOnClick"
+							IsEnabled="{Binding IsEnabled}"/>
+
+                    <ComboBox SelectionChanged="ComboBox_SelectionChanged">
+                        <ComboBoxItem IsSelected="True" Tag="sequentiel">Ping Séquentiel</ComboBoxItem>
+                        <ComboBoxItem Tag="parallele">Ping en Parallèle</ComboBoxItem>
+                    </ComboBox>
+
+                </StackPanel>
             </StackPanel>
 
 		</Border>
