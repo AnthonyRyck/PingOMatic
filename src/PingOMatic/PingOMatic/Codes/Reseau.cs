@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace PingOMatic.Codes
@@ -40,6 +44,29 @@ namespace PingOMatic.Codes
 
 				return reponse;
 			});
+		}
+
+		/// <summary>
+		/// Retourne la liste d'IP pour cette adresse.
+		/// Résout un nom d'hôte ou une adresse IP
+		/// </summary>
+		/// <param name="nameOrAddress"></param>
+		/// <returns></returns>
+		public static async Task<IEnumerable<string>> DnsTestAsync(string nameOrAddress)
+		{
+			List<string> adressesIpV4 = new List<string>();
+
+			IPHostEntry result = await Dns.GetHostEntryAsync(nameOrAddress);
+			if (result == null)
+				return new string[] { "Aucune IP" };
+
+			foreach (var item in result.AddressList)
+			{
+				if (item.AddressFamily.ToString() == ProtocolFamily.InterNetwork.ToString())
+					adressesIpV4.Add(item.ToString());
+			}
+
+			return adressesIpV4;
 		}
 
 	}

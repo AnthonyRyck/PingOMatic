@@ -15,11 +15,29 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition />
 		</Grid.RowDefinitions>
 
+		<Grid>
+			<Menu HorizontalAlignment="Left" Margin="2">
+				<MenuItem Header="_Configuration">
+					<MenuItem Header="_Ajouter test" />
+					<MenuItem Header="_Gérer menu contextuel" />
+				</MenuItem>
+			</Menu>
+
+			<Menu HorizontalAlignment="Right" Margin="5">
+				<MenuItem HorizontalAlignment="Right" 
+						Header="_A Propos"
+						Click="AboutOnClick">
+				</MenuItem>
+			</Menu>
+		</Grid>
+		
 		<Border BorderBrush="Black" 
 				BorderThickness="1"
+				Grid.Row="1"
 				Margin="5" 
 				CornerRadius="5">
 
@@ -97,10 +115,10 @@
 
 		</Border>
 
-		<Grid Grid.Row="1">
+		<Grid Grid.Row="2">
 			<ListView x:Name="ListUc"
 					ItemsSource="{Binding ListeDesMachines, Mode=OneWay}"
-					SelectionChanged="ClickToItem">
+					MouseLeftButtonUp="OnClickToMachine">
 
 				<ListView.ItemContainerStyle>
 					<Style TargetType="ListViewItem">
@@ -143,7 +161,10 @@
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>
+
+								
 							</Border.Resources>
+
 							<StackPanel Orientation="Horizontal"
 										Margin="5">
 								<Button Click="DeleteOnClick"
@@ -152,9 +173,12 @@
 										Height="20"
 										Width="20"/>
 
-								<Label Content="Machine :" FontWeight="Bold" />
-								<TextBox IsReadOnly="True"
-									Text="{Binding NomMachine}">
+								<Label Content="Machine :" FontWeight="Bold" VerticalAlignment="Center" />
+								<TextBox IsReadOnly="True" 
+										Height="22" 
+										VerticalAlignment="Center"
+										VerticalContentAlignment="Center"
+										Text="{Binding NomMachine}">
 								</TextBox>
 
                                 <StackPanel Orientation="Vertical" Margin="20,0,0,0">
@@ -168,7 +192,34 @@
 										<Run Text="{Binding Temps}" />
                                         <Run Text=" ms" />
                                     </TextBlock>
-                                </StackPanel>
+
+									<StackPanel Orientation="Horizontal">
+										<Image Source="/Resources/Warning.png" 
+												Width="15">
+											<Image.Resources>
+												<Style TargetType="{x:Type Image}">
+													<Setter Property="Visibility" Value="Collapsed" />
+
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding DnsStatus}" Value="GoodDns">
+															<Setter Property="Visibility" Value="Collapsed" />
+														</DataTrigger>
+
+														<DataTrigger Binding="{Binding DnsStatus}" Value="ErrorDns">
+															<Setter Property="Visibility" Value="Visible" />
+														</DataTrigger>
+
+													</Style.Triggers>
+												</Style>
+											</Image.Resources>
+										</Image>
+
+										<TextBlock>
+										    <Run Text="IP :" FontWeight="Bold" />
+											<Run Text="{Binding IpAdresse}" />
+										</TextBlock>
+									</StackPanel>
+								</StackPanel>
 							</StackPanel>
 						</Border>
 					</DataTemplate>

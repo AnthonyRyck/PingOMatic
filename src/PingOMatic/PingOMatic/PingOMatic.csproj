@@ -69,6 +69,9 @@
     <Compile Include="Codes\Reseau.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\PingoMaticViewModel.cs" />
+    <Compile Include="Views\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -82,6 +85,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -112,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ping.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

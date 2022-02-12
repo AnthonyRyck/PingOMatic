@@ -1,5 +1,6 @@
 ﻿using PingOMatic.Codes;
 using PingOMatic.ViewModels;
+using PingOMatic.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -79,9 +80,9 @@ namespace PingOMatic
 			await ViewModel.Ping(machine);
 		}
 
-		private void ClickToItem(object sender, SelectionChangedEventArgs e)
+		private void OnClickToMachine(object sender, MouseButtonEventArgs e)
 		{
-			var machineSelected = e.AddedItems[0] as MachineToTestDisplay;
+			var machineSelected = ((ListView) sender).SelectedItem as MachineToTestDisplay;
 			ViewModel.CopyToClipBoard(machineSelected);
 		}
 
@@ -113,5 +114,24 @@ namespace PingOMatic
             }
 			
 		}
-    }
+
+		#region Events sur ContextMenu
+
+
+		private void OnThisMachineForcerPingOnClick(object sender, RoutedEventArgs e)
+		{
+			
+		}
+
+
+		#endregion
+
+		private void AboutOnClick(object sender, RoutedEventArgs e)
+		{
+			// Display About.
+			About aboutWindows = new About();
+			aboutWindows.Show();
+		}
+
+	}
 }

@@ -38,13 +38,42 @@ namespace PingOMatic.Codes
         }
         private long _temps;
 
+		/// <summary>
+		/// IP de la machine
+		/// </summary>
+		public string IpAdresse
+		{
+			get { return _ipAdresse; }
+			set
+			{
+				_ipAdresse = value;
+				OnNotifyPropertyChanged();
+			}
+		}
+		private string _ipAdresse;
+
+		public StatusDns DnsStatus
+		{
+			get { return _dnsStatus; }
+			set
+			{
+				_dnsStatus = value;
+				OnNotifyPropertyChanged();
+			}
+		}
+		private StatusDns _dnsStatus;
 
 
-        public MachineToTestDisplay(string nom, string description)
+
+
+
+		public MachineToTestDisplay(string nom, string description)
 		{
 			base.NomMachine = nom;
 			base.Description = description;
 			StatusMachine = Status.NotTested;
+			DnsStatus = StatusDns.NotTested;
+			IpAdresse = "Pas encore testé";
 		}
 
 		#region Implement INotifyPropertyChanged
@@ -69,5 +98,13 @@ namespace PingOMatic.Codes
 		InTesting,
 		Connected,
 		NotConnected
+	}
+
+	public enum StatusDns
+	{
+		NotTested,
+		NoDns,
+		GoodDns,
+		ErrorDns
 	}
 }

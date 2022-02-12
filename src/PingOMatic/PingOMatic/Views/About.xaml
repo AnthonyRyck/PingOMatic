@@ -1,0 +1,32 @@
+﻿<Window x:Class="PingOMatic.Views.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PingOMatic.Views"
+        mc:Ignorable="d"
+        Title="A propos" Height="200" Width="400">
+    <Grid>
+
+		<StackPanel Orientation="Vertical" Margin="10">
+			<TextBlock>Projet Open Source sur Github :</TextBlock>
+			<TextBlock>
+                <Hyperlink NavigateUri="https://github.com/AnthonyRyck/PingOMatic"
+                            Click="OnClickGithub">
+                    <TextBlock Text="https://github.com/AnthonyRyck/PingOMatic"/>
+                </Hyperlink>
+            </TextBlock>
+
+			<StackPanel Orientation="Horizontal" Margin="0,20">
+				<TextBlock Text="Fait par votre serviteur : " />
+
+				<TextBlock>
+				    <Hyperlink NavigateUri="https://github.com/AnthonyRyck"
+                                Click="OnClickOnMe">
+				    	<TextBlock Text="Anthony Ryck"/>
+				    </Hyperlink>
+                </TextBlock>
+			</StackPanel>
+		</StackPanel>
+    </Grid>
+</Window>

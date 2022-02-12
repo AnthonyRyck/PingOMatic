@@ -271,6 +271,11 @@ namespace PingOMatic.ViewModels
 			IsEnabled = true;
 		}
 
+		/// <summary>
+		/// Méthode qui va ping la machine.
+		/// </summary>
+		/// <param name="machine"></param>
+		/// <returns></returns>
 		private async Task PingMachine(MachineToTestDisplay machine)
 		{
 			var oldValue = machine.StatusMachine;
@@ -286,6 +291,30 @@ namespace PingOMatic.ViewModels
 				if (oldValue == Status.NotConnected)
 				{
 					Notify.ShowNotification("PING", machine.NomMachine + " en ligne", System.Windows.Forms.ToolTipIcon.Info);
+				}
+
+				// Résoudre le DNS.
+				var adresses = await Reseau.DnsTestAsync(machine.NomMachine);
+				int nbreIp = adresses.Count();
+
+				switch (nbreIp)
+				{
+					// Si 0, pas de DNS configuré.
+					case 0:
+						machine.IpAdresse = "Aucun adresse IP trouvé";
+						machine.DnsStatus = StatusDns.NoDns;
+						break;
+
+					case 1:
+						machine.IpAdresse = adresses.First();
+						machine.DnsStatus = StatusDns.GoodDns;
+						break;
+
+					// DNS qui contient plusieurs IP pour la même adresse.
+					default:
+						machine.IpAdresse = string.Join(" - ", adresses);
+						machine.DnsStatus = StatusDns.ErrorDns;
+						break;
 				}
 			}
 			else
