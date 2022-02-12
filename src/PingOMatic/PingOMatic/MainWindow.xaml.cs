@@ -34,20 +34,6 @@ namespace PingOMatic
 			ViewModel = GetViewModel();
 		}
 
-
-
-
-		private async void AddToList(object sender, RoutedEventArgs e)
-		{
-			//var viewModel = GetViewModel();
-			// Ajouter dans le fichier de sauvegarde
-			await ViewModel.AddMachine(UcName.Text, DescriptionTextBox.Text);
-
-			UcName.Text = string.Empty;
-			DescriptionTextBox.Text = string.Empty;
-		}
-
-
 		private PingoMaticViewModel GetViewModel()
 		{
 			return this.DataContext as PingoMaticViewModel;
@@ -86,19 +72,6 @@ namespace PingOMatic
 			ViewModel.CopyToClipBoard(machineSelected);
 		}
 
-		private async void Button_AddListClick(object sender, RoutedEventArgs e)
-        {
-			await ViewModel.AddList(DescriptionMultiTextBox.Text);
-			DescriptionMultiTextBox.Clear();
-
-		}
-
-        private async void Button_AddClipBoard_Click(object sender, RoutedEventArgs e)
-        {
-			await ViewModel.AddClipboard(DescriptionClipboardTextBox.Text);
-			DescriptionClipboardTextBox.Clear();
-		}
-
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 			if (sender == null)
@@ -115,17 +88,6 @@ namespace PingOMatic
 			
 		}
 
-		#region Events sur ContextMenu
-
-
-		private void OnThisMachineForcerPingOnClick(object sender, RoutedEventArgs e)
-		{
-			
-		}
-
-
-		#endregion
-
 		private void AboutOnClick(object sender, RoutedEventArgs e)
 		{
 			// Display About.
@@ -133,5 +95,11 @@ namespace PingOMatic
 			aboutWindows.Show();
 		}
 
+		private void OpenNewTest(object sender, RoutedEventArgs e)
+		{
+			AjoutTest ajoutTestView = new AjoutTest(ViewModel.AddMachine, ViewModel.AddList, ViewModel.AddClipboard);
+			ajoutTestView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			ajoutTestView.Show();
+		}
 	}
 }
