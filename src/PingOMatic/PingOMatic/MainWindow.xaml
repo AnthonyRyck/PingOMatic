@@ -6,11 +6,23 @@
         xmlns:local="clr-namespace:PingOMatic" 
 		xmlns:localViewModel="clr-namespace:PingOMatic.ViewModels"
 		mc:Ignorable="d"
-        Title="Ping'O'Matic" Height="450" Width="800">
+        Title="Ping'O'Matic" 
+		Height="450" Width="800">
 
 	<Window.DataContext>
 		<localViewModel:PingoMaticViewModel />
 	</Window.DataContext>
+
+	<Window.Resources>
+		<ContextMenu x:Key="ItemContextMenu">
+			<!--<MenuItem Header="Ping"
+						Command="{Binding Path=DataContext.MoreInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}" 
+						Background="WhiteSmoke"
+						Click="OnPingThisMachine"/>-->
+		</ContextMenu>
+	</Window.Resources>
+
+
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -23,7 +35,7 @@
 			<Menu HorizontalAlignment="Left" Margin="2">
 				<MenuItem Header="_Configuration">
 					<MenuItem Header="_Ajouter test" Click="OpenNewTest" />
-					<MenuItem Header="_Gérer menu contextuel" />
+					<MenuItem Header="_Gérer menu contextuel" Click="SettingOnClick" />
 				</MenuItem>
 			</Menu>
 
@@ -69,6 +81,7 @@
 				<ListView.ItemContainerStyle>
 					<Style TargetType="ListViewItem">
 						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+						<Setter Property="ContextMenu" Value="{StaticResource ItemContextMenu}" />
 					</Style>
 				</ListView.ItemContainerStyle>
 
@@ -78,13 +91,6 @@
 								BorderThickness="1"
 								BorderBrush="Black"
 								CornerRadius="3">
-
-							<Border.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="Ping" 
-											Click="OnPingThisMachine"/>
-								</ContextMenu>
-							</Border.ContextMenu>
 
 							<Border.Resources>
 								<Style TargetType="{x:Type Border}">

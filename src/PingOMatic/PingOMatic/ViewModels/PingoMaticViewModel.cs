@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PingOMatic.ViewModels
 {
@@ -43,9 +44,14 @@ namespace PingOMatic.ViewModels
 		private bool _isEnabled;
 
 		/// <summary>
-		/// Chemin d'accès au fichier de sauvegarde pour le fichier.
+		/// Chemin d'accès au fichier de sauvegarde pour les machines/URL.
 		/// </summary>
 		private string PathSaveFile;
+
+		/// <summary>
+		/// Chemin d'accès au fichier de sauvegarde pour les menus.
+		/// </summary>
+		private string PathFileMenu;
 
 		/// <summary>
 		/// Timer pour faire les Ping
@@ -63,6 +69,7 @@ namespace PingOMatic.ViewModels
 		{
 			ListeDesMachines = new ObservableCollection<MachineToTestDisplay>();
 			PathSaveFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "saveMachines.dat");
+			PathFileMenu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "menus.dat");
 
 			LoadSaveFile();
 
@@ -75,6 +82,8 @@ namespace PingOMatic.ViewModels
 			TimerPing.Enabled = true;
 
 			optionPing = SEQUENTIEL;
+
+			InitContextMenus();
 		}
 
 		#region Internal methods
@@ -205,23 +214,17 @@ namespace PingOMatic.ViewModels
 
 		internal void CopyToClipBoard(MachineToTestDisplay machineSelected)
 		{
+			if (machineSelected == null)
+				return;
+
 			Clipboard.SetText(machineSelected.NomMachine);
 			Notify.ShowNotification("Copié", machineSelected.NomMachine + " dans le presse-papiers !", System.Windows.Forms.ToolTipIcon.Info, 3);
 		}
 
+
+
+
 		#endregion
-
-		private IEnumerable<string> GetUrl(Stream streamFile)
-        {
-			StreamReader reader = new StreamReader(streamFile);
-			string text = reader.ReadToEnd();
-			return Split(text);
-		}
-
-		private IEnumerable<string> Split(string text)
-        {
-			return text.Split(new string[] { ";", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-		}
 
 		#region Private methods
 
@@ -329,6 +332,122 @@ namespace PingOMatic.ViewModels
 
 			machine.Temps = resultPing.TimePing;
 		}
+
+		private IEnumerable<string> GetUrl(Stream streamFile)
+		{
+			StreamReader reader = new StreamReader(streamFile);
+			string text = reader.ReadToEnd();
+			return Split(text);
+		}
+
+		private IEnumerable<string> Split(string text)
+		{
+			return text.Split(new string[] { ";", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+		}
+
+		#endregion
+
+
+		#region Add custom Menu
+
+		private void InitContextMenus()
+		{
+			// Ajout par défaut de ce menu.
+			CustomMenuItems = new List<MenuItem>();
+			MenuItem menuPing = new MenuItem()
+			{
+				Header = "Ping"
+			};
+			menuPing.Click += OnPingThisMachine;
+			CustomMenuItems.Add(menuPing);
+
+			LoadMenuFile();
+			foreach (var item in _menuCustom)
+			{
+				MenuItem menu = CreateMenuItem(item);
+				CustomMenuItems.Add(menu);
+			}
+		}
+
+		private List<CustomMenu> _menuCustom = new List<CustomMenu>();
+		public List<MenuItem> CustomMenuItems { get; set; }
+
+		private async void OnPingThisMachine(object sender, RoutedEventArgs e)
+		{
+			var item = sender as MenuItem;
+			var machine = item.DataContext as MachineToTestDisplay;
+
+			await Ping(machine);
+		}
+
+		private async void OnExecuteCommand(object sender, RoutedEventArgs e)
+		{
+			var item = sender as MenuItem;
+			var machine = item.DataContext as MachineToTestDisplay;
+			var custom = item.Tag as CustomMenu;
+
+			string param = GetParam(machine);
+			string newPath = custom.PathApp.Replace("*****", param);
+
+			if (!string.IsNullOrEmpty(custom.PathApp))
+				System.Diagnostics.Process.Start(newPath);
+		}
+
+		private string GetParam(MachineToTestDisplay machine)
+		{
+			var parametre = machine.Description.Split('[', ']');
+			if (parametre.Length > 1)
+				return parametre[1];
+			else return string.Empty;
+		}
+
+		internal async Task AddMenu(string header, string path)
+		{
+			try
+			{
+				CustomMenu nouveauMenu = new CustomMenu(header, path);
+				_menuCustom.Add(nouveauMenu);
+
+				MenuItem menuItem = CreateMenuItem(nouveauMenu);
+				CustomMenuItems.Add(menuItem);
+				
+				await SaveMenuToFile();
+			}
+			catch (Exception ex)
+			{
+				LogErreur(ex);
+				Notify.ShowNotification("Erreur", "Erreur ajouté au fichier log", System.Windows.Forms.ToolTipIcon.Error);
+			}
+		}
+
+		private MenuItem CreateMenuItem(CustomMenu nouveauMenu)
+		{
+			MenuItem menuItem = new MenuItem()
+			{
+				Header = nouveauMenu.NameMenu
+			};
+			menuItem.Click += OnExecuteCommand;
+			menuItem.Tag = nouveauMenu;
+
+			return menuItem;
+		}
+
+
+		private async Task SaveMenuToFile()
+		{
+			string output = JsonConvert.SerializeObject(_menuCustom);
+			File.WriteAllText(PathFileMenu, output);
+		}
+
+		private void LoadMenuFile()
+		{
+			if (!File.Exists(PathFileMenu))
+				return;
+
+			string menus = File.ReadAllText(PathFileMenu);
+			_menuCustom = JsonConvert.DeserializeObject<List<CustomMenu>>(menus);
+		}
+
 
 		#endregion
 

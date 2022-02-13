@@ -1,0 +1,81 @@
+﻿<Window x:Class="PingOMatic.Views.ConfigMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PingOMatic.Views"
+        mc:Ignorable="d"
+        Title="Configuration" Height="300" Width="800">
+	<Grid Margin="5">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<TextBlock Margin="5" 
+			TextWrapping="Wrap">
+			<Run Text="Il est possible d'ajouter des options au menu contextuel sur les machines/sites à tester." />
+			<Run Text="Il faut"/>
+			<Run Text="REDEMARRER" FontWeight="Bold"/>
+			<Run Text="l'application pour prise d'effet." />
+		</TextBlock>
+
+		<Grid Grid.Row="1" Margin="0,5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Label Grid.Column="0" FontWeight="Bold">Nom du menu :</Label>
+			<TextBox Grid.Column="1" Margin="5,0" Name="HeaderName" />
+		</Grid>
+
+		<Grid Grid.Row="2" Margin="0,5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Label Grid.Column="0" FontWeight="Bold">Commande :</Label>
+			<TextBox Grid.Column="1" Margin="5,0" Name="AppPath" />
+		</Grid>
+		<StackPanel Grid.Row="3" Orientation="Vertical">
+
+			<TextBlock>Commande ou un site web.</TextBlock>
+			<TextBlock>Par exemple pour bloc-note : C:\Windows\System32\notepad.exe </TextBlock>
+			<TextBlock>Et pour un site : https://www.google.com/</TextBlock>
+			<TextBlock  TextWrapping="Wrap">
+				<Run Text="Note :" FontWeight="ExtraBold" />
+					<Run Text="Il est possible de passer"></Run>
+					<Run Text="un" FontWeight="Bold"/>
+					<Run Text="paramètre à la commande. La commande doit contenir" />
+					<Run FontWeight="Bold" Text="*****" />
+					<Run Text=" (5 *) qui seront remplacées par la valeur qui sera mise entre" />
+					<Run Text="[ ]" FontWeight="Bold" />
+					<Run Text=" dans la description du test." />
+			</TextBlock>
+			<TextBlock>Par exemple :</TextBlock>
+			<TextBlock>
+				<Run Text="Commande : https://www.google.com/" />
+				<Run Text="*****" FontWeight="Bold" />
+			</TextBlock>
+			<TextBlock>
+				<Run Text="Dans la decription : " />
+				<Run Text="site pour tester google" FontStyle="Italic" />
+ 				<Run Text="[maps]" FontWeight="Bold" FontStyle="Italic" />
+			</TextBlock>
+			<TextBlock>Ouvrira le site : www.google.com/maps</TextBlock>
+		</StackPanel>
+
+	
+		<Button Grid.Row="4" 
+				Height="20"
+				HorizontalAlignment="Center"
+				Click="SaveConfig"
+				Margin="10">Sauvegarder</Button>
+
+	</Grid>
+</Window>

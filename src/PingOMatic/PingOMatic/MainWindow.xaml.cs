@@ -32,6 +32,16 @@ namespace PingOMatic
 			InitializeComponent();
 
 			ViewModel = GetViewModel();
+			InitContextMenu();
+		}
+
+		private void InitContextMenu()
+		{
+			// Ajout PAR DEFAULT de ce menu.
+			var contextMenu = (ContextMenu) this.Resources["ItemContextMenu"];
+
+			// Ajout dans le ContextMenu
+			contextMenu.ItemsSource = ViewModel.CustomMenuItems;
 		}
 
 		private PingoMaticViewModel GetViewModel()
@@ -100,6 +110,13 @@ namespace PingOMatic
 			AjoutTest ajoutTestView = new AjoutTest(ViewModel.AddMachine, ViewModel.AddList, ViewModel.AddClipboard);
 			ajoutTestView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			ajoutTestView.Show();
+		}
+
+		private void SettingOnClick(object sender, RoutedEventArgs e)
+		{
+			ConfigMenu config = new ConfigMenu(ViewModel.AddMenu);
+			config.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			config.Show();
 		}
 	}
 }
