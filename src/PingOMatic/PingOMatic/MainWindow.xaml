@@ -36,6 +36,8 @@
 				<MenuItem Header="_Configuration">
 					<MenuItem Header="_Ajouter test" Click="OpenNewTest" />
 					<MenuItem Header="_Gérer menu contextuel" Click="SettingOnClick" />
+					<Separator HorizontalAlignment="Left" Width="200" Foreground="Black" Height="5" />
+					<MenuItem Header="_Exporter" Click="OnExportClick" />
 				</MenuItem>
 			</Menu>
 

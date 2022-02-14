@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -136,7 +137,9 @@ namespace PingOMatic.ViewModels
 				optionPing = tag;
 		}
 
-        internal async Task AddList(string description)
+		
+
+		internal async Task AddList(string description)
         {
             try
             {
@@ -223,6 +226,33 @@ namespace PingOMatic.ViewModels
 
 
 
+
+		#endregion
+
+		#region Export Result
+
+		internal void ExportResult()
+		{
+			string separateur = " - ";
+			StringBuilder exportResult = new StringBuilder();
+
+			foreach (var item in ListeDesMachines)
+			{
+				exportResult.Append(item.NomMachine);
+				exportResult.Append(separateur);
+				exportResult.Append(item.StatusMachine.ToString());
+				exportResult.Append(separateur);
+				exportResult.Append(item.IpAdresse);
+				exportResult.Append(separateur);
+				exportResult.Append(item.Temps + " ms");
+				exportResult.Append(separateur);
+				exportResult.Append(item.DnsStatus.ToString());
+				exportResult.Append(Environment.NewLine);
+			}
+
+			Clipboard.SetText(exportResult.ToString());
+			Notify.ShowNotification("Export copié", "Export des résultats copié dans le presse-papiers !", System.Windows.Forms.ToolTipIcon.Info, 3);
+		}
 
 		#endregion
 

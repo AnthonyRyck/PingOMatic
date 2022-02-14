@@ -118,5 +118,10 @@ namespace PingOMatic
 			config.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 			config.Show();
 		}
+
+		private void OnExportClick(object sender, RoutedEventArgs e)
+		{
+			ViewModel.ExportResult();
+		}
 	}
 }
