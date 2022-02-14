@@ -11,10 +11,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    # Checkout des sources
       - uses: actions/checkout@v2
+    # Ces étapes obtiennent la configuration de MSBuild et NuGet et sont ajoutées à la variable PATH
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.2
     # Compilation du code.
-      - name: Compilation du projet
-        run: dotnet msbuild /p:Configuration=Release
+      - name: Build de la solution
+        run: msbuild.exe PingOMatic.sln /p:platform="Any CPU" /p:configuration="Release"
     # Création de la release
       - name: Création de la release
         uses: actions/create-release@v1
@@ -24,8 +30,6 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+            Déploiement de la release.
           draft: false
           prerelease: false
