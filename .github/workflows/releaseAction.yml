@@ -24,7 +24,7 @@ jobs:
     # Zip de la release
       - name: Zip release
         #run: zip --junk-paths PingOMatic-Release.zip .\src\PingOMatic\PingOMatic\bin\Release\PingOMatic-Release.exe .\src\PingOMatic\PingOMatic\bin\Release\Newtonsoft.Json.dll
-        run: Compress-Archive -Path '.\src\PingOMatic\PingOMatic\bin\Release\' PingOMatic-Release.zip
+        run: Compress-Archive -Path '.\src\PingOMatic\PingOMatic\bin\Release\*' PingOMatic-Release.zip
     # Création de la release
       - name: Création de la release
         uses: actions/create-release@v1
