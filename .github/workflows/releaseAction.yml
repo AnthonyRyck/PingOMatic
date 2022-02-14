@@ -23,7 +23,6 @@ jobs:
         run: msbuild.exe .\src\PingOMatic\PingOMatic.sln /p:platform="Any CPU" /p:configuration="Release"
     # Zip de la release
       - name: Zip release
-        #run: zip --junk-paths PingOMatic-Release.zip .\src\PingOMatic\PingOMatic\bin\Release\PingOMatic-Release.exe .\src\PingOMatic\PingOMatic\bin\Release\Newtonsoft.Json.dll
         run: Compress-Archive -Path '.\src\PingOMatic\PingOMatic\bin\Release\*' PingOMatic-Release.zip
     # Création de la release
       - name: Création de la release
@@ -32,7 +31,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
+          #tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
             Déploiement de la release.
@@ -44,7 +43,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          #asset_path: .\src\PingOMatic\PingOMatic\bin\Release\PingOMatic-Release.zip
           asset_path: PingOMatic-Release.zip
           asset_name: PingOMatic-Release.zip
           asset_content_type: application/zip
