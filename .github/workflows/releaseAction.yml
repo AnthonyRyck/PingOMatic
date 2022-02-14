@@ -18,6 +18,8 @@ jobs:
         uses: microsoft/setup-msbuild@v1
       - name: Savoir ou je suis
         run: pwd
+      - name: Savoir ce qu'il y a
+        run: dir
       - name: Restore Packages
         run: nuget restore PingOMatic.sln
     # Compilation du code.
