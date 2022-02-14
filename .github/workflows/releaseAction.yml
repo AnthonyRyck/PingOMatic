@@ -16,15 +16,11 @@ jobs:
     # Ces étapes obtiennent la configuration de MSBuild et NuGet et sont ajoutées à la variable PATH
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
-      - name: Savoir ou je suis
-        run: pwd
-      - name: Savoir ce qu'il y a
-        run: dir
       - name: Restore Packages
-        run: nuget restore PingOMatic.sln
+        run: nuget restore .\src\PingOMatic.sln
     # Compilation du code.
       - name: Build de la solution
-        run: msbuild.exe PingOMatic.sln /p:platform="Any CPU" /p:configuration="Release"
+        run: msbuild.exe .\src\PingOMatic.sln /p:platform="Any CPU" /p:configuration="Release"
     # Création de la release
       - name: Création de la release
         uses: actions/create-release@v1
