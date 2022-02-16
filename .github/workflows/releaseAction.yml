@@ -39,7 +39,7 @@ jobs:
           body: |
             Changement dans cette version.
             - Ajout du menu pour "alléger" la fenêtre de test
-            - Ajout la possibilitée d'ajouter des items dans le menu contextuel sur les tests.
+            - Ajout la possibilité d'ajouter des items dans le menu contextuel sur les tests.
             - Ajout d'un export des résultats
           draft: false
           prerelease: false
