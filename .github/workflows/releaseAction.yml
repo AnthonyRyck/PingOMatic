@@ -6,8 +6,6 @@ on:
     inputs:
       tags:
         description: "Nom du tag pour cette release"
-      noterelease:
-        description: "Quel ajout dans cette release ?"
 
 jobs:
   build:
@@ -39,8 +37,10 @@ jobs:
           tag_name: ${{ github.event.inputs.tags }}
           release_name: ${{ github.event.inputs.tags }}
           body: |
-            Déploiement de la release.
-            ${{ github.event.inputs.noterelease }}
+            Changement dans cette version.
+            - Ajout du menu pour "alléger" la fenêtre de test
+            - Ajout la possibilitée d'ajouter des items dans le menu contextuel sur les tests.
+            - Ajout d'un export des résultats
           draft: false
           prerelease: false
       - name: Upload artifact
