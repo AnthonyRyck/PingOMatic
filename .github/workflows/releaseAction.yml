@@ -6,6 +6,8 @@ on:
     inputs:
       tags:
         description: "Nom du tag pour cette release"
+      noterelease:
+        description: "Quel ajout dans cette release ?"
 
 jobs:
   build:
@@ -38,6 +40,7 @@ jobs:
           release_name: ${{ github.event.inputs.tags }}
           body: |
             Déploiement de la release.
+            ${{ github.event.inputs.noterelease }}
           draft: false
           prerelease: false
       - name: Upload artifact
